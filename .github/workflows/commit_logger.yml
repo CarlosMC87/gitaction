@@ -40,9 +40,8 @@ jobs:
           #Fliltro para commitear los cambios
           if [ -n "$(find log/ -type f -name 'commits_*.txt')"]; them
             git add log/
-            git commit -m "Autolatest commits log"
+            git commit -m "Auto Add latest commits log"
             git push
           else
             echo "No hay archivos para commitear"
           fi
-          
