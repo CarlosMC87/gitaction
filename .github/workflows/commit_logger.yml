@@ -1,0 +1,48 @@
+name: commit Logger
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+  schedule:
+    - cron: "59 23 * * 5" #Cada viernes a las 23 59 se ejecutara
+
+jobs:
+  log-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 5 #agregamos mas commits por si acaso
+
+      - name: Install Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: "1.20"
+
+      #creamos un directorio log siempre que no exista
+      - name: Run script logger
+        run: |
+          mkdir -p log/
+          cd scripts
+          go run log_commits.go || exit 1
+
+      - name: Commit and push
+        run: |
+          git config --global user.name "Github Actions Bot"
+          git config --global user.email "actions@github.com"
+          
+          #Listar los directorios
+          echo "---Archivos en el log/ ---"
+          ls -la log/
+
+          #Fliltro para commitear los cambios
+          if [ -n "$(find log/ -type f -name 'commits_*.txt')"]; them
+            git add log/
+            git commit -m "Autolatest commits log"
+            git push
+          else
+            echo "No hay archivos para commitear"
+          fi
+          
