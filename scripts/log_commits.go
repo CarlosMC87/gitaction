@@ -21,7 +21,7 @@ func main() {
   if _, err := os.Stat(logDir); os.IsNotExist(err) {
     //Definiendo permisos de escritura
     err = os.Mkdir (logDir, 0755)
-    if err !0nil {
+    if err != nil {
       fmt.Printf("Error creando directorio %s: %v\n", logDir,err);
       os.Exit(1)
     }
