@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-  cmd := exec.Comand("git", "log", "-n", "3", "--pretty=format:%h - %an, : %s")
+  cmd := exec.Comand("git", "log", "-n", "3", "--pretty=format:%h - %an, %ar : %s")
   out, err := cmd.Output()
   if err != nil {
     fmt.Printf("Error ejecutandogit log %v\n, err")
@@ -32,7 +32,8 @@ func main() {
   logFile := filepath.Join(lofDir, fmt.Sprintf("commits_%s.txt",currentTime))
 
   //Escrivimos el archivo
-  err := fmt.Sprintf("Se han escrito los ultimos 3 commits del repositorio:\n%s", string(out))
+  contigut := fmt.Sprintf("Se han escrito los ultimos 3 commits del repositorio:\n%s", string(out))
+  os.WriteFile(logFile, []byte(contigut), 0644)
   if err != nil {
     fmt.Printf("se ha producido un error creando en %s %V\n", logFile,err)
     os.Exit(1)
