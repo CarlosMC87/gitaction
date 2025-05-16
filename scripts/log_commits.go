@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-  cmd := exec.Comand("git", "log", "-n", "3", "--pretty=format:%h - %an, %ar : %s")
+  cmd := exec.Command("git", "log", "-n", "3", "--pretty=format:%h - %an, %ar : %s")
   out, err := cmd.Output()
   if err != nil {
     fmt.Printf("Error ejecutandogit log %v\n, err")
